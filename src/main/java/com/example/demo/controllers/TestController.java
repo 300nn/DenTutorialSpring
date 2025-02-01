@@ -17,6 +17,7 @@ public class TestController {
 
     @GetMapping("/tastk1")
     public String getAnswer(String a){
+        logger.info("Answer is {}", a);
         return helloService.reshenie(a);
     }
 
