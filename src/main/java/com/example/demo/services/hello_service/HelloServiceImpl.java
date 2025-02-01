@@ -1,7 +1,8 @@
-package com.example.demo.services;
+package com.example.demo.services.hello_service;
 
 
 import com.example.demo.pojo.Student;
+import com.example.demo.services.MainParameters;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,19 +12,22 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class HelloService {
+public class HelloServiceImpl implements HelloService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private final MainParameters mainParameters;
 
-    public String reshenie(String param){
+    @Override
+    public String reshenie(String param) {
         return "Answer is " + param;
     }
 
-    public List<Student> getAllStudents(){
+    @Override
+    public List<Student> getAllStudents() {
         return mainParameters.getStudents();
     }
 
-    public Student addStudent(Student student){
+    @Override
+    public Student addStudent(Student student) {
         try {
             mainParameters.getStudents().add(student);
             logger.info("Added student {}", student);
