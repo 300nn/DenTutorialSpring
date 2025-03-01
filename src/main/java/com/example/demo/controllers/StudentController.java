@@ -18,38 +18,38 @@ public class StudentController {
     private final StudentService studentService;
 
     @GetMapping("/getAllStudents")
-    List<Student> getAllStudents() {
+    public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
 
     @PostMapping("/addStudent")
-    ResponseEntity<?> addStudent(@RequestBody Student student) {
+    public ResponseEntity<?> addStudent(@RequestBody Student student) {
         if (studentService.addStudent(student))
             return ResponseEntity.ok().build();
         return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/{id}")
-    Student getStudentById(@PathVariable("id") Integer id) {
+    public Student getStudentById(@PathVariable("id") Integer id) {
         return studentRepository.findStudentById(id).orElse(null);
     }
 
     @DeleteMapping("/delete/{id}")
     @Transactional
-    ResponseEntity<?> deleteStudent(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> deleteStudent(@PathVariable("id") Integer id) {
         studentRepository.deleteStudentById(id);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/update/{id}")
-    ResponseEntity<?> updateStudent(@PathVariable("id") Integer id, @RequestBody Student student) {
+    public ResponseEntity<?> updateStudent(@PathVariable("id") Integer id, @RequestBody Student student) {
         if (studentService.updateStudent(id, student))
             return ResponseEntity.ok().build();
         return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/olderThan/{age}")
-    List<Student> olderThan(@PathVariable("age") Integer age) {
+    public List<Student> olderThan(@PathVariable("age") Integer age) {
         return studentService.getStudentsOlderThan(age);
     }
 }

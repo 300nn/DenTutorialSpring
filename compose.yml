@@ -1,0 +1,47 @@
+services:
+  den-tutorial-container:
+    image: dent-tutorial
+    container_name: dent-tutorial
+    build:
+      context: .
+      dockerfile: Dockerfile
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
+    depends_on:
+      - postgres
+    networks:
+      - postgres-network
+    restart: always
+    volumes:
+      - ./src/main/resources/application.yml:/application.yml
+    ports:
+      - "8080:8080"
+    environment:
+      - spring.datasource.url=jdbc:postgresql://postgres:5432/testBD
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+#    healthcheck:
+#      test: [ "CMD-SHELL", "pg_isready", "--quiet" ]
+#      interval: 5s
+#      timeout: 5s
+#      retries: 10
+    ports:
+      - "15432:5432"
+    networks:
+      - postgres-network
+    volumes:
+      - ./conf/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=testBD
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+
+networks:
+  postgres-network:
+
+volumes:
+  postgres-data:
